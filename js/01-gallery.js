@@ -1,7 +1,7 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-console.log(galleryItems);
+// console.log(galleryItems);
 
 const gallery = document.querySelector(".gallery");
 (function () {
@@ -29,16 +29,22 @@ function onClick(evt) {
 
     const currentCard = evt.target.closest('.gallery__image');
     const { source } = currentCard.dataset;
-    const data = galleryItems.find(({ sourceImg }) => sourceImg === source);
 
     // console.log(source);
 
-    const instance = basicLightbox.create(
-        `<img class="gallery__image"
-      src="${data.preview}"
-      data-source="${data.original}"
-      alt="${data.description}"/>
-  </a>`)
-    instance.show() 
+  const instance = basicLightbox.create(`<img src="${source}">`)
+  instance.show();
+
+  if (instance.show()) {
+    document.addEventListener("keydown", onKey);
+  }
+
+  function onKey(evt) {
+  if (evt.code === "Escape") {
+  instance.close();
+    document.removeEventListener("keydown", onKey);
+  }
 }
+}
+
 
