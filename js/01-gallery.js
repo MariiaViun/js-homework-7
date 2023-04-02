@@ -21,30 +21,28 @@ gallery.insertAdjacentHTML('beforeend', markup.join(''))
 gallery.addEventListener("click", onClick);
 
 function onClick(evt) {
-    evt.preventDefault();
+  evt.preventDefault();
 
-    if (!evt.target.classList.contains('gallery__image')) {
-        return;
-    }
-
-    const currentCard = evt.target.closest('.gallery__image');
-    const { source } = currentCard.dataset;
-
-    // console.log(source);
-
-  const instance = basicLightbox.create(`<img src="${source}">`)
-  instance.show();
-
-  if (instance.show()) {
-    document.addEventListener("keydown", onKey);
+  if (!evt.target.classList.contains('gallery__image')) {
+    return;
   }
+
+  const currentCard = evt.target.closest('.gallery__image');
+  const { source } = currentCard.dataset;
+
+
+  const instance = basicLightbox.create(`<img src="${source}">`,
+    {
+      onShow: (instance) => {document.addEventListener("keydown", onKey);},
+      onClose: (instance) => {document.removeEventListener("keydown", onKey);}
+    })
 
   function onKey(evt) {
-  if (evt.code === "Escape") {
-  instance.close();
-    document.removeEventListener("keydown", onKey);
+    evt.code === "Escape";
+    instance.close();
   }
-}
+  
+  instance.show();
 }
 
 
