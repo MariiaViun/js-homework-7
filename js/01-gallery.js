@@ -38,8 +38,9 @@ function onClick(evt) {
     })
 
   function onKey(evt) {
-    evt.code === "Escape";
-    instance.close();
+    if (evt.code === "Escape") {
+       instance.close();
+    }
   }
   
   instance.show();
